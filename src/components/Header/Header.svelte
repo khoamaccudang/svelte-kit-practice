@@ -13,13 +13,18 @@
 		<span>Bag</span>
 	</button>
 </div>
+<div class="header-blank-block" />
 
 <style lang="scss">
 	.header-container {
 		position: fixed;
-		padding: 0 30px;
+		padding: 4px 30px;
 		backdrop-filter: blur(8px);
 		background-color: $color-background;
 		width: 100%;
+	}
+	.header-blank-block {
+		background-color: $color-background;
+		height: 57px;
 	}
 </style>
