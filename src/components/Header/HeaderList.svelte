@@ -3,7 +3,15 @@
 	import type { IMenu } from '../../utils/types/menu';
 	let menuItem: IMenu[] = [
 		{
-			name: 'Keyboards'
+			name: 'Keyboards',
+			secondMenuItem: [
+				{
+					name: 'Envoy'
+				},
+				{
+					name: 'Sonet'
+				}
+			]
 		},
 		{
 			name: 'Keycaps'
@@ -23,17 +31,26 @@
 	];
 
 	let activeItem: number | null = null;
+	let activeSubItem: number | null = null;
 
 	function handleMouseEnter(index: number) {
 		activeItem = index;
 	}
 
+	function handleMouseEnterSubmenu(index: number) {
+		activeSubItem = index;
+	}
+
 	function handleMouseLeave() {
 		activeItem = null;
 	}
+
+	function handleMouseLeaveSubmenu() {
+		activeSubItem = null;
+	}
 </script>
 
-<div class="flex flex-row gap-10">
+<div class="flex flex-row gap-10 relative">
 	{#each menuItem as item, index}
 		<div
 			class:activeItem
@@ -42,32 +59,42 @@
 			on:mouseleave={handleMouseLeave}
 			aria-hidden="true"
 		>
-			<span>{item.name}</span>
-			<iconify-icon
-				icon="mdi:chevron-down"
-				class={`rotate-chevron ${activeItem === index ? 'rotate-180' : ''}`}
-				data-icon="bx:bx-home"
-			/>
+			<span class="header-item--text">{item.name}</span>
+			{#if item.secondMenuItem}
+				<iconify-icon
+					icon="mdi:chevron-down"
+					class={`rotate-chevron ${activeItem === index ? 'rotate-180' : ''}`}
+					data-icon="bx:bx-home"
+				/>
+			{/if}
+
+			{#if activeItem === index && item.secondMenuItem}
+				<div class="submenu-item absolute">
+					{#each item?.secondMenuItem as secondItem, secondIndex}
+						<div
+							class:activeSubItem
+							class="flex submenu-item__container"
+							on:mouseenter={() => handleMouseEnterSubmenu(secondIndex)}
+							on:mouseleave={handleMouseLeaveSubmenu}
+							aria-hidden="true"
+						>
+							<span class="submenu-item--text flex justify-center items-center"
+								>{secondItem.name}</span
+							>
+							<iconify-icon
+								icon="mdi:chevron-down"
+								class={`rotate-chevron -rotate-90`}
+								data-icon="bx:bx-home"
+							/>
+						</div>
+					{/each}
+				</div>
+			{/if}
 		</div>
 	{/each}
 </div>
 
 <style lang="scss">
-	.header-item {
-		padding: 15px;
-		span {
-			font-size: 12px;
-
-			color: $color-primary;
-		}
-
-		&:hover span,
-		&:hover > iconify-icon {
-			color: $color-secondary;
-		}
-	}
-
-	.rotate-chevron {
-		transition: transform 0.8s ease-in-out;
-	}
+	@import '../../assets/scss//header/headerList.scss';
+	@import '../../assets/scss//header/subMenuItem.scss';
 </style>

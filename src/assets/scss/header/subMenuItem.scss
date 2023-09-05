@@ -1,0 +1,21 @@
+.submenu-item {
+  background-color: $color-background;
+  box-shadow: $box-shadow;
+  height: 100px;
+  max-width: 172px;
+  top: 40px;
+  right: 0;
+  width: 100%;
+  @include transition(transform, 0.8s, ease-in-out, 0s);
+
+  &--text {
+    color: $color-primary;
+    font-size: 12px;
+    padding: 15px;
+  }
+
+  &__container:hover &--text,
+  &__container:hover iconify-icon {
+    color: $color-secondary;
+  }
+}

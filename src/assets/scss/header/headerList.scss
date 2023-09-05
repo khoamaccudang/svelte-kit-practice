@@ -1,0 +1,19 @@
+.header-item {
+  padding: 0 15px;
+  position: relative;
+
+  span {
+    font-size: 12px;
+
+    color: $color-primary;
+  }
+
+  &:hover &--text,
+  &:hover>iconify-icon {
+    color: $color-secondary;
+  }
+}
+
+.rotate-chevron {
+  @include transition(transform, 0.8s, ease-in-out, 0s);
+}
